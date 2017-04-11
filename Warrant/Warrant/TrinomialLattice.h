@@ -17,6 +17,7 @@ public:
     void backwardEval_FSG();
 	void terPayoff_noFSG();
 	void backwardEval_noFSG();
+	void delMem(double*** p);
 private:
 	double*** initVal(int num_k);
 	double dt;

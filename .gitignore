@@ -306,3 +306,5 @@ __pycache__/
 *.xsd.cs
 Contact GitHub API Training Shop Blog About
 © 2017 GitHub, Inc. Terms Privacy Security Status Help
+
+*.txt

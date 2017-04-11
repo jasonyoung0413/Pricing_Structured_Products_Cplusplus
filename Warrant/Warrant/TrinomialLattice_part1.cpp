@@ -63,10 +63,22 @@ TrinomialLattice::terPayoff_FSG() {
 
 
 void
+TrinomialLattice::delMem(double*** p) {
+	for (int i = 0; i <= (2 * steps); i++) {
+		for (int j = 0; j <= (2 * steps); j++) {
+			delete[] p[i][j];
+		}
+	}
+	for (int i = 0; i <= (2 * steps); i++)
+		delete[]p[i];
+	delete[]p;
+}
+
+
+void
 TrinomialLattice::backwardEval_FSG() {
 	int N = steps-1;
 	while (N >= 0) {
-		cout << N << endl;
 	    last_war_value = war_value;
 		int n = N % max_k;
 		int num_k = n;
@@ -85,26 +97,22 @@ TrinomialLattice::backwardEval_FSG() {
 						k_now = 0;
 					}
 					war_value[i][j][k] = discount*(triprob[0] * last_war_value[i + 1][j + 1][
-						gridF(warrant->wal_price*exp((i_now + 1)*v1), warrant->wal_exe_price,
-							warrant->intel_price*exp((j_now + 1)*v2), warrant->intel_exe_price, k_now)] +
+						gridF(exp((i_now + 1)*v1), 0.87,exp((j_now + 1)*v2), 0.87, k_now)] +
 						triprob[1] * last_war_value[i + 1][j - 1][
-							gridF(warrant->wal_price*exp((i_now + 1)*v1), warrant->wal_exe_price,
-								warrant->intel_price*exp((j_now - 1)*v2), warrant->intel_exe_price, k_now)] +
+							gridF(exp((i_now + 1)*v1), 0.87, exp((j_now - 1)*v2), 0.87, k_now)] +
 							triprob[2] * last_war_value[i - 1][j - 1][
-								gridF(warrant->wal_price*exp((i_now - 1)*v1), warrant->wal_exe_price,
-									warrant->intel_price*exp((j_now - 1)*v2), warrant->intel_exe_price, k_now)] +
+								gridF(exp((i_now - 1)*v1), 0.87,exp((j_now - 1)*v2), 0.87, k_now)] +
 								triprob[3] * last_war_value[i - 1][j + 1][
-									gridF(warrant->wal_price*exp((i_now - 1)*v1), warrant->wal_exe_price,
-										warrant->intel_price*exp((j_now + 1)*v2), warrant->intel_exe_price, k_now)] +
+									gridF(exp((i_now - 1)*v1), 0.87, exp((j_now + 1)*v2), 0.87, k_now)] +
 									triprob[4] * last_war_value[i][j][
-										gridF(warrant->wal_price*exp((i_now)*v1), warrant->wal_exe_price,
-											warrant->intel_price*exp((j_now)*v2), warrant->intel_exe_price, k_now)]
+										gridF(exp((i_now)*v1), 0.87, exp((j_now)*v2), 0.87, k_now)]
 										);
 					if (n == 0 && N != 0) {
 						// call right
 						if (warrant->call_right
-							&&warrant->wal_price*exp(i_now*v1)>=warrant->wal_exe_price
-							&&warrant->intel_price*exp(j_now*v2)>=warrant->intel_exe_price){
+							&&exp(i_now*v1)>=0.87
+							&&exp(j_now*v2)>=0.87)
+						{
 							war_value[i][j][k] = MIN(war_value[i][j][k], warrant->call_price);
 						}
 						// jump at the warrant value at coupon date
@@ -114,14 +122,7 @@ TrinomialLattice::backwardEval_FSG() {
 			}
 		}
 		// delete the last warrant value matrix
-		for (int i = 0; i <= (2 * steps); i++) {
-			for (int j = 0; j <= (2 * steps); j++) {
-				delete[]last_war_value[i][j];
-			}
-		}
-		for (int i = 0; i <= (2 * steps); i++)
-			delete[]last_war_value[i];
-		delete[]last_war_value;
+		delMem(last_war_value);
 		N--;
 	}
 }
