@@ -23,7 +23,7 @@ int main() {
 	/*
     The variation of warrant's price w.r.t various parameters;
 	*/
-	/*
+	
    	ofstream myfile;
 	// correlation coefficient between the stock price processes: 
 	myfile.open("rou_para.txt");
@@ -61,11 +61,12 @@ int main() {
 		p.delMem(p.war_value);
 	}
 	myfile.close();
-	*/
+	
 	/*
     the price for call right	
 	*/ 
 	// at the same time, validate the method using PV instead of FSSG;
+	/*
 	Warrant war(wal_price, intel_price, rate, coupon, 2, wal_vol, intel_vol, rou, false, n);
 	TrinomialLattice p(&war, numberOfSteps, numberOfYear, gridFunc, payOffFunc);
 	p.terPayoff_FSG();
@@ -80,6 +81,6 @@ int main() {
 	p1.backwardEval_FSG();
 	cout<< p1.war_value[p1.steps][p1.steps][0] << endl;
 	system("pause");
-
+*/
 
 }
