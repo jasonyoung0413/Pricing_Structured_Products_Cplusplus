@@ -12,10 +12,10 @@ int main() {
 	// initial value for all parameters:
 	wal_price = 45.48;
 	intel_price = 20.77;
-	wal_vol = 0.02;
+	wal_vol = 0.50;
 	intel_vol = 0.50;
 	rou = 0.1;
-	rate = 0.05;
+	rate = 0.01;
 	coupon = 0.04075;
 	int numberOfSteps = 168;
 	int numberOfYear = 252;
@@ -23,6 +23,7 @@ int main() {
 	/*
     The variation of warrant's price w.r.t various parameters;
 	*/
+	/*
    	ofstream myfile;
 	// correlation coefficient between the stock price processes: 
 	myfile.open("rou_para.txt");
@@ -60,9 +61,25 @@ int main() {
 		p.delMem(p.war_value);
 	}
 	myfile.close();
-
+	*/
 	/*
     the price for call right	
 	*/ 
 	// at the same time, validate the method using PV instead of FSSG;
+	Warrant war(wal_price, intel_price, rate, coupon, 2, wal_vol, intel_vol, rou, false, n);
+	TrinomialLattice p(&war, numberOfSteps, numberOfYear, gridFunc, payOffFunc);
+	p.terPayoff_FSG();
+	p.backwardEval_FSG();
+	cout << p.war_value[p.steps][p.steps][0] << endl;
+	p.terPayoff_noFSG();
+	p.backwardEval_noFSG();
+	cout << p.war_value[p.steps][p.steps][0] << endl;
+	Warrant war1(wal_price, intel_price, rate, coupon, 2, wal_vol, intel_vol, rou, true, n);
+	TrinomialLattice p1(&war1, numberOfSteps, numberOfYear, gridFunc, payOffFunc);
+	p1.terPayoff_FSG();
+	p1.backwardEval_FSG();
+	cout<< p1.war_value[p1.steps][p1.steps][0] << endl;
+	system("pause");
+
+
 }

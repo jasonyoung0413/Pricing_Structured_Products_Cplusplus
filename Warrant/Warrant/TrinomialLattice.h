@@ -25,7 +25,7 @@ private:
 	double triprob[5];
 	double discount;
 	double ***last_war_value;
-	int max_k;
+	int max_k; 
 	int days_step;
 	GridFunc gridF;
 	PayOffFunc payOffF;

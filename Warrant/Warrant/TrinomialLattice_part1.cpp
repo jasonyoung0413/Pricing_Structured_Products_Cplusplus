@@ -77,11 +77,13 @@ TrinomialLattice::delMem(double*** p) {
 
 void
 TrinomialLattice::backwardEval_FSG() {
+//	cout << warrant->call_right;
 	int N = steps-1;
 	while (N >= 0) {
 	    last_war_value = war_value;
 		int n = N % max_k;
 		int num_k = n;
+//		cout << n << endl;
 		if (n == 0 && N != 0) {
 			// at coupon date
 			num_k = max_k;
@@ -96,27 +98,32 @@ TrinomialLattice::backwardEval_FSG() {
 					if (n == 0 && N != 0) {
 						k_now = 0;
 					}
-					war_value[i][j][k] = discount*(triprob[0] * last_war_value[i + 1][j + 1][
-						gridF(exp((i_now + 1)*v1), 0.87,exp((j_now + 1)*v2), 0.87, k_now)] +
+					war_value[i][j][k] = discount*(
+						triprob[0] * last_war_value[i + 1][j + 1][
+							gridF(exp((i_now + 1)*v1), 0.87, exp((j_now + 1)*v2), 0.87, k_now)] +
 						triprob[1] * last_war_value[i + 1][j - 1][
 							gridF(exp((i_now + 1)*v1), 0.87, exp((j_now - 1)*v2), 0.87, k_now)] +
-							triprob[2] * last_war_value[i - 1][j - 1][
-								gridF(exp((i_now - 1)*v1), 0.87,exp((j_now - 1)*v2), 0.87, k_now)] +
+								triprob[2] * last_war_value[i - 1][j - 1][
+									gridF(exp((i_now - 1)*v1), 0.87, exp((j_now - 1)*v2), 0.87, k_now)] +
 								triprob[3] * last_war_value[i - 1][j + 1][
 									gridF(exp((i_now - 1)*v1), 0.87, exp((j_now + 1)*v2), 0.87, k_now)] +
-									triprob[4] * last_war_value[i][j][
-										gridF(exp((i_now)*v1), 0.87, exp((j_now)*v2), 0.87, k_now)]
+										triprob[4] * last_war_value[i][j][
+											gridF(exp((i_now)*v1), 0.87, exp((j_now)*v2), 0.87, k_now)]
 										);
-					if (n == 0 && N != 0) {
+					// at coupon date
+					if (n == 0 && N != 0) {					
+						// jump at the warrant value
+						war_value[i][j][k] += k*days_step*(warrant->coupon) / (numberOfYear / 4);
 						// call right
-						if (warrant->call_right
-							&&exp(i_now*v1)>=0.87
-							&&exp(j_now*v2)>=0.87)
+//						if (k==0)
+//						cout << i_now<<" "<<j_now << endl;
+						if (warrant->call_right && (MIN(exp(i_now*v1), exp(j_now*v2)) > 0.87))
 						{
+//							cout << "here" << endl;
+//							cout << war_value[i][j][k] << endl;
 							war_value[i][j][k] = MIN(war_value[i][j][k], warrant->call_price);
 						}
-						// jump at the warrant value at coupon date
-						war_value[i][j][k] += k*days_step*(warrant->coupon) / (numberOfYear / 4);
+						
 					}
 				}
 			}
