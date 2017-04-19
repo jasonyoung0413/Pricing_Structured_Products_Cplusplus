@@ -55,7 +55,7 @@ TrinomialLattice::terPayoff_FSG() {
 				war_value[i][j][k] = payOffF(warrant->wal_price*exp((i - steps)*v1),
 					warrant->wal_exe_price, warrant->intel_price*exp((j - steps)*v2),
 					warrant->intel_exe_price) +
-					k*days_step*(warrant->coupon) / (numberOfYear / 4);
+					k*(warrant->coupon) / max_k;
 			}
 		}
 	}
@@ -113,7 +113,7 @@ TrinomialLattice::backwardEval_FSG() {
 					// at coupon date
 					if (n == 0 && N != 0) {					
 						// jump at the warrant value
-						war_value[i][j][k] += k*days_step*(warrant->coupon) / (numberOfYear / 4);
+						war_value[i][j][k] += k*(warrant->coupon) / max_k;
 						// call right
 //						if (k==0)
 //						cout << i_now<<" "<<j_now << endl;

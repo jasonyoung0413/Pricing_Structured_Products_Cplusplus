@@ -23,8 +23,8 @@ TrinomialLattice::backwardEval_noFSG() {
 								triprob[3] * last_war_value[i - 1][j + 1][0] +
 									triprob[4] * last_war_value[i][j][0]);
 				// PV of interest received for sure at next coupon date
-				if (MIN(exp(i_now*v1), exp(j_now*v2)) > 0.87) {
-					war_value[i][j][0] += pow(discount, (max_k - n) % max_k)*days_step*(warrant->coupon) / (numberOfYear / 4);
+				if (MIN(exp(i_now*v1), exp(j_now*v2)) > 0.87 && N != 0) {
+					war_value[i][j][0] += pow(discount, (max_k - n) % max_k)*(warrant->coupon) / max_k;
 //					cout << "noFSG" << endl;
 				}
 					
@@ -48,7 +48,7 @@ TrinomialLattice::terPayoff_noFSG() {
 				warrant->wal_exe_price, warrant->intel_price*exp((j - steps)*v2),
 				warrant->intel_exe_price);
 			if (MIN(exp(i_now * v1), exp(j_now * v2)) > 0.87)
-				war_value[i][j][0] += days_step*(warrant->coupon) / (numberOfYear / 4);
+				war_value[i][j][0] += (warrant->coupon) / max_k;
 		}
 	}
 
