@@ -9,8 +9,7 @@ TrinomialLattice::TrinomialLattice(Warrant* pWar, int nsteps, int n, GridFunc gr
     //initilize;
 	dt = warrant->maturity / nsteps;
 	discount = exp(-warrant->rate*dt);
-	days_step = int(n / (nsteps / warrant->maturity));
-	max_k = int(numberOfYear / (4*days_step));
+	max_k = 21;
 	//prob
 	double lambda = sqrt(3);
 	double dao_lambda = 1 / pow(lambda,2);
@@ -111,19 +110,14 @@ TrinomialLattice::backwardEval_FSG() {
 											gridF(exp((i_now)*v1), 0.87, exp((j_now)*v2), 0.87, k_now)]
 										);
 					// at coupon date
-					if (n == 0 && N != 0) {					
-						// jump at the warrant value
-						war_value[i][j][k] += k*(warrant->coupon) / max_k;
+					if (n == 0 && N != 0) {
 						// call right
-//						if (k==0)
-//						cout << i_now<<" "<<j_now << endl;
-						if (warrant->call_right && (MIN(exp(i_now*v1), exp(j_now*v2)) > 0.87))
+						if (warrant->call_right && (MIN(exp(i_now*v1), exp(j_now*v2)) >= 0.87))
 						{
-//							cout << "here" << endl;
-//							cout << war_value[i][j][k] << endl;
 							war_value[i][j][k] = MIN(war_value[i][j][k], warrant->call_price);
 						}
-						
+						// jump at the warrant value
+						war_value[i][j][k] += k*(warrant->coupon) / max_k;
 					}
 				}
 			}

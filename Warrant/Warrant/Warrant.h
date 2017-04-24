@@ -17,7 +17,7 @@ public:
 	double vol_wal;
 	double vol_intel;
 	double corr;
-	double maturity; 
+	double maturity;
 	bool call_right;
 	Warrant(double p1, double p2, double r, double c, double T,
 		double vol1, double vol2, double rou, bool call,long n)

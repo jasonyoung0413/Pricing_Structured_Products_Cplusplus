@@ -17,12 +17,12 @@ public:
     void backwardEval_FSG();
 	void terPayoff_noFSG();
 	void backwardEval_noFSG();
+	double triprob[5];
 	void delMem(double*** p);
 private:
 	double*** initVal(int num_k);
 	double dt;
 	double v1,v2;
-	double triprob[5];
 	double discount;
 	double ***last_war_value;
 	int max_k; 
