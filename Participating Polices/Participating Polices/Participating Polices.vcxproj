@@ -112,6 +112,10 @@
   <ItemGroup>
     <ClInclude Include="ImplicitFD.h" />
     <ClInclude Include="ParticipatingPolices.h" />
+    <ClInclude Include="PayOff.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ImplicitFD_part1.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

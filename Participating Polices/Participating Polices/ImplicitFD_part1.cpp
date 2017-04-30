@@ -7,10 +7,11 @@ using namespace std;
 double**
 ImplicitFD::initVal(){
   double **p;
-  p = new double*[max_i+1];
-  for (int i=0;i<=max_i;i++){
-    p[i] = new double*[max_j];
+  p = new double* [max_i+1];
+  for (int i = 0; i <= max_i; i++) {
+	  p[i] = new double[max_j + 1];
   }
+  return p;
 }
 
 void
@@ -35,7 +36,7 @@ ImplicitFD::backwardEval() {
 
     }
     // from the end of year s to the start of year s
-    while (int k=1;k<=max_k;k++) {
+	for (int k = 1; k <= max_k; k++) {
       // at the kth time step of year s.
       last_value = value;
 

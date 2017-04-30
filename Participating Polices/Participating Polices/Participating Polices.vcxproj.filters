@@ -21,5 +21,13 @@
     <ClInclude Include="ImplicitFD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PayOff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ImplicitFD_part1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
