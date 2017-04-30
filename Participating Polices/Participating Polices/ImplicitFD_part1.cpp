@@ -23,23 +23,29 @@ ImplicitFD::delMem(double** p){
 }
 
 void
-ImplicitFD::terPayoff(){
-
-}
-
-void
 ImplicitFD::backwardEval() {
   for (int s=product->T; s>0; s--){
     // no-jump condition at the end of year
     if (s!=product->T){
       // consideration for k==0
+		// European style
+
+		// Surrender option 
+		if (product->surrender) {
+			// PSOR
+
+			// surrender value
+			product->surrender_value[s - 1];
+		}
 
     }
     // from the end of year s to the start of year s
 	for (int k = 1; k <= max_k; k++) {
       // at the kth time step of year s.
       last_value = value;
-
+	  for (int i = 0; i <= max_i; i++) {
+		  value[i] = 
+	  }
       delMem(last_value);
     }
   }
