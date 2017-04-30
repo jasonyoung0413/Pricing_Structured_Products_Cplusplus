@@ -12,8 +12,8 @@ int main() {
 	// initial value for all parameters:
 	wal_price = 45.48;
 	intel_price = 20.77;
-	wal_vol = 0.05;
-	intel_vol = 0.1;
+	wal_vol = 0.10;
+	intel_vol = 0.20;
 	rou = 0.0001;
 	rate = 0.05;
 	coupon = 0.04075;
@@ -28,7 +28,7 @@ int main() {
 	// // correlation coefficient between the stock price processes:
 	// myfile.open("rou_para.txt");
 	// myfile << "rou,withcall,withoutcall" << endl;
-	// for (double i_rou = -0.1; i_rou <= 0.1; i_rou += 0.01) {
+	// for (double i_rou = -0.9; i_rou <= 0.9; i_rou += 0.2) {
 	// 	cout << "processing: rou " << i_rou << endl;
 	// 	Warrant war(wal_price, intel_price, rate, coupon, 2, wal_vol, intel_vol, i_rou,true,n);
 	// 	TrinomialLattice p(&war, numberOfSteps, numberOfYear, gridFunc, payOffFunc);
@@ -44,6 +44,7 @@ int main() {
 	// 	myfile << i_rou << "," << val_with_call << "," << val_without_call << endl;
 	// }
 	// myfile.close();
+	// system("pause");
 	// //volatility of stock prices
 	// myfile.open("vol_para.txt");
 	// myfile << "vol,withcall,withoutcall" << endl;
@@ -86,7 +87,7 @@ int main() {
 	*/
 	// at the same time, validate the method using PV instead of FSSG;
 
-	Warrant war(wal_price, intel_price, rate, coupon, 2, wal_vol, intel_vol, rou, false, n);
+	Warrant war(wal_price, intel_price, rate, coupon, 2, wal_vol, intel_vol, 0.90, true, n);
 	TrinomialLattice p(&war, numberOfSteps, numberOfYear, gridFunc, payOffFunc);
 	p.terPayoff_FSG();
 	p.backwardEval_FSG();
